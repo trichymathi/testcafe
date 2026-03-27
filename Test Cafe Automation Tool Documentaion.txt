@@ -1,0 +1,172 @@
+Test Cafe Automation Tool
+------Installation-------
+To Install Dependencies
+Step 1 : Open Terminal
+Step 2 : Type command - npm init
+description : Automated testing with TestCafe
+keywords : TestCafe, Testing, Automation
+Step 3 : Type command - npm install testcafe -g --> Global repository(It will install gobally)
+                      - npm install testcafe --> It will install locally
+                      - npm install testcafe --save-dev --> Deploy for production code
+
+Step 4 : If you want you can install prettier (Where it will maintain our code according to our config which ever we st in that file )
+like using of singleQuotes
+
+command - npm install prettier
+
+create .prettierrc and add below things if you need
+
+"semi": false,
+"singleQuote": true,
+"useTabs": true,
+"tabWidth": 2,
+"bracketSpacing": true,
+"arrowParens": "avoid",
+"trailingComma": "es5"
+
+-----Run Test In Test Cafe--------
+
+Step 1 : Open package.json
+Step 2 : In test field mention -> testcafe browserName location
+         eg: testcafe chrome ./tests 
+         eg: testcafe chrome basic.test.js (for specific test to run)
+Step 3 : put command 'npm run test' in command prompt
+
+We Can Run Test in different Browsers And Also Chrome Mobile devices
+
+//To run in Chrome
+"test:chrome": "testcafe chrome ./tests",
+//To run in Chrome in Headless
+"test:chrome:headless": "testcafe chrome:headless ./tests",
+//To run in mobile in chrome
+"test:chrome:mobile": "testcafe chrome:emulation:device=iphone X ./tests",
+// To run in edge
+"test:chrome:edge": "testcafe edge ./tests",
+//To run in Safari
+"test:safari":"testcafe safari ./tests",
+// To run in firfox
+"test:firefox":"Testcafe firefox ./tests"
+
+After that you just call the test name to run 
+npm run test:chrome -> to run specifically in chrome
+
+--- Hooks In Test Cafe ----
+before(async t =>{    ---> it will sun before whole tests
+})
+beforeEach(async t =>{  ---> it will run before each test
+})
+after(async t =>{       ---> it will sun after whole tests
+})
+afterEach(async t =>{   ---> it will sun after each test
+})
+
+----Test Speed -----
+await t.setTestSpeed(1) it should range from 0.01 - 1
+It is very usefull for test debugging
+
+----- Test Pause -----
+It will work like thread.sleep
+
+await t.wait(3000) --> Its not recommended
+
+----- Take Screen Shot ---
+await t.takeScreenShot({ path:./tests/test.png }) --> specific path
+await t.takeScreenShot({fullPage: true}) --> default location it will take in default location
+
+await t.takeElementScreenShot( Element ) --> It will take specific element
+
+
+------To Take screenshot on failure-----
+Step 1 : create file testcaferc.js and add below things there
+{
+  "screenshotPath":"./screenshots",
+  "screenshotPathPattern":"${DATE}_${TIME)/${FIXTURE}.png"
+}
+
+Step 2 : change the run things in package.file
+"test:chrome" : "testcafe chrome ./tests -s takeOnFails=true"
+
+----- Page Load Time Out -------
+await t.setPageLoadTimeout(0) 0 is default we can use 1000 for 1 sec like that same in thread.sleep
+
+----- Test Skip or Only -------
+test.skip -->So this particular test case will skip
+test.only --> It will only run particular test and other are ignored
+
+----- Disable Cache -------
+put it in package.json
+It will automatically clear the caches during navigation -->"test:chrome" :testcafe chrome ./tests -s takeOnFails=true --disable-page-caching"
+
+----- Actions API -----
+opyioms are not an mandatory if you need refer documents
+
+// Click
+await t.click('selector", {options })
+
+// Double Click
+await t.doubleClick('selector', { options })
+
+// Right Click
+await t.rightClick('selector', { options })
+
+// Drag Element
+await t.drag('selector', 200, 0, { options })
+
+// Hover
+await t.hover("selector", { options })
+
+// Select text
+await t.selectText('selector")
+
+// Type text
+await t. typeText('selector', 'text')
+
+// Press key on the keyboard
+await t.pressKey('key')
+
+//Navigate
+await t.navigateTo("url")
+
+// Take screenshot
+await t.takeScreenshot()
+await t.takeElementScreenshot()
+
+// Resize window
+await t.resizeWindow(888, 600)
+
+------ Assertion API ----------
+
+
+// Deep Equal
+await t.expect('foo').eql('foo', 'message', options)
+
+// Not Deep Equal
+await t.expect('foo').notEql('foo')
+
+// OK
+await t.expect(true).ok()
+
+// Not OK
+await t.expect(true).not0k()
+
+// Contains
+await t.expect('foo').contains('o')
+
+// Not Contains
+await t.expect('foo').notContains('hey')
+
+// Greater or Less than
+await t.expect(10).gt(10)
+await t.expect(10).gte(10) --  greater than equal
+await t.expect(10).lt(10)
+await t.expect(10).lte(10) -- less than equal
+
+// Within
+await t.expect(10).within (1, 100)
+
+// Not Within
+await t.expect(10).notwithin(5,50)
+
+
+
+
